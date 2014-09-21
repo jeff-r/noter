@@ -1,6 +1,8 @@
 # Noter
 
-TODO: Write a gem description
+Dumps text into timestamped files under ~/.notes.
+
+Use it for keeping a journal, or for short -- or long -- notes during the workday.
 
 ## Installation
 
