@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["jeff@jeffroush.com"]
   spec.summary       = %q{Creates timestamped notes.}
   spec.description   = %q{Inspired (read: stolen) from the 'journal' and 'jrnl' python progrsm. At the moment, those are more developed; use them instead of this.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/jeff-r/noter"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
