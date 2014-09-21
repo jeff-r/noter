@@ -1,5 +1,6 @@
 require "noter/version"
+require "noter/file_maker"
 
 module Noter
-  # Your code goes here...
+
 end

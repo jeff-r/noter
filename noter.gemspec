@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.name          = "noter"
   spec.version       = Noter::VERSION
   spec.authors       = ["Jeff Roush"]
-  spec.email         = ["jroush@ezpublishing.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.email         = ["jeff@jeffroush.com"]
+  spec.summary       = %q{Creates timestamped notes.}
+  spec.description   = %q{Inspired (read: stolen) from the 'journal' and 'jrnl' python progrsm. At the moment, those are more developed; use them instead of this.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -19,5 +19,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.5"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake", "~> 10.3.2"
+  spec.add_development_dependency "rspec", "~> 3.1.0"
+  spec.add_development_dependency "timecop", "~> 0.7.1"
+  spec.add_development_dependency "fakefs", "~> 0.5.3"
+  spec.add_development_dependency "pry", "~> 0.10"
+  spec.add_development_dependency "pry-nav", "~> 0.2.4"
 end
