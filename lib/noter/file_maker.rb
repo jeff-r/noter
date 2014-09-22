@@ -10,7 +10,7 @@ module Noter
     end
 
     def dir
-      "#{ENV['HOME']}/.notes"
+      NoteFile.dir
     end
 
     def new_filename

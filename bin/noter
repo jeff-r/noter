@@ -10,6 +10,10 @@ class NoteRunner
         Noter::FileMaker.new.make_from_file(filename)
       end
 
+      opts.on("-l", "--one-line", "Show first lines of each note file") do
+        Noter::Viewer.new.show_first_lines
+      end
+
       opts.on("-m", "--message MESSAGE", "Use the given message as the note") do |message|
         Noter::FileMaker.new(message).save_file
       end
