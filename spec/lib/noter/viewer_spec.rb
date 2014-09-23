@@ -24,6 +24,12 @@ module Noter
         expect(viewer).to receive(:puts).with("09-21 19:20: file 2")
         viewer.show_first_lines
       end
+
+      it "includes the filenames" do
+        expect(viewer).to receive(:puts).with("09-21 18:20: #{NoteFile.dir}/2014_09_21_18_20_22.txt: file 1")
+        expect(viewer).to receive(:puts).with("09-21 19:20: #{NoteFile.dir}/2014_09_21_19_20_22.txt: file 2")
+        viewer.show_first_lines(with_filename: true)
+      end
     end
   end
 end
