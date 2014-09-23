@@ -6,7 +6,7 @@ require "optparse"
 class NoteRunner
   def run(args)
     parser = OptionParser.new do |opts|
-      opts.on("-f", "--file FILE", "Use the specified file as the note") do |filename|
+      opts.on("-f", "--file FILE", "Create a note using the given file") do |filename|
         Noter::FileMaker.new.make_from_file(filename)
       end
 
@@ -18,7 +18,7 @@ class NoteRunner
         Noter::Viewer.new.show_first_lines(with_filename: true)
       end
 
-      opts.on("-m", "--message MESSAGE", "Use the given message as the note") do |message|
+      opts.on("-m", "--message MESSAGE", "Create a note using the given string") do |message|
         Noter::FileMaker.new(message).save_file
       end
     end

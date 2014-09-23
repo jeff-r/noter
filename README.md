@@ -20,7 +20,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    Usage: noter [options]
+        -f, --file FILE                  Create a note using the given file
+        -l, --one-line                   Show first line of each note file
+        -n, --name                       Show first line of each note file, with filename
+        -m, --message MESSAGE            Create a note using the given string
 
 ## Contributing
 
