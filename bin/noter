@@ -4,22 +4,63 @@ require "noter"
 require "optparse"
 
 class NoteRunner
+  def initialize
+    @paging = true
+  end
+
   def run(args)
+    run_parser
+    run_command
+  end
+
+  def run_command
+    case @command
+    when :make_from_file
+      Noter::FileMaker.new.make_from_file(@filename)
+    when :show_first_lines
+      Noter::Viewer.new(:paging => @paging).show_first_lines(:with_filename => @show_names)
+    when :create_from_string
+      Noter::FileMaker.new(@message).save_file
+    when :show_last_n_files
+      Noter::Viewer.new(:paging => @paging).show_last_n_files(@count)
+    when :show_file_from_index
+      Noter::Viewer.new(:paging => @paging).show_file_from_index(@index)
+    end
+  end
+
+  def run_parser
     parser = OptionParser.new do |opts|
       opts.on("-f", "--file FILE", "Create a note using the given file") do |filename|
-        Noter::FileMaker.new.make_from_file(filename)
+        @command = :make_from_file
+        @filename = filename
       end
 
       opts.on("-l", "--one-line", "Show first line of each note file") do
-        Noter::Viewer.new.show_first_lines
+        @command = :show_first_lines
       end
 
-      opts.on("-n", "--name", "Show first line of each note file, with filename") do
-        Noter::Viewer.new.show_first_lines(with_filename: true)
+      opts.on("-n", "--name", "Include names when showing files") do
+        @command = :show_first_lines
+        @show_names = true
       end
 
       opts.on("-m", "--message MESSAGE", "Create a note using the given string") do |message|
-        Noter::FileMaker.new(message).save_file
+        @command = :create_from_string
+        @message = message
+      end
+
+      opts.on("-t", "--tail COUNT", "the last n files") do |count|
+        @command = :show_last_n_files
+        @count = count
+      end
+
+      opts.on("-s", "--show INDEX", "Show a file with the given index") do |index|
+        @command = :show_file_from_index
+        @index = index
+      end
+
+      opts.on("-u", "--unpaged", "Don't page the output") do |count|
+        @paging = false
       end
     end
     parser.parse!
