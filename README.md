@@ -28,7 +28,7 @@ Or install it yourself as:
         -n, --name                       Include names when showing files
             --no-color                   Don't colorize output
         -s, --search STRING              Show a file with the given index
-        -t, --tail COUNT                 the last n files
+        -t, --tail COUNT                 Show the last n files
         -u, --unpaged                    Don't page the output
         -v, --view INDEX                 View a file with the given index
 

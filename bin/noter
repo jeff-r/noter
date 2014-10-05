@@ -63,7 +63,7 @@ class NoteRunner
         @command = :show_files
       end
 
-      opts.on("-t", "--tail COUNT", "the last n files") do |count|
+      opts.on("-t", "--tail COUNT", "Show the last n files") do |count|
         @command = :show_files
         @options[:tail_count] = count
       end
