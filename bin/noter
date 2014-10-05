@@ -5,7 +5,7 @@ require "optparse"
 
 class NoteRunner
   def initialize
-    @paging = true
+    @options = {:paging => true}
   end
 
   def run(args)
@@ -15,16 +15,16 @@ class NoteRunner
 
   def run_command
     case @command
-    when :make_from_file
-      Noter::FileMaker.new.make_from_file(@filename)
+    when :show_file_from_index
+      Noter::Viewer.new(@options).show_file_from_index(@index)
     when :show_first_lines
-      Noter::Viewer.new(:paging => @paging).show_first_lines(:with_filename => @show_names)
+      Noter::Viewer.new(@options).show_first_lines(:with_filename => @show_names)
+    when :show_last_n_files
+      Noter::Viewer.new(@options).show_last_n_files(@count)
     when :create_from_string
       Noter::FileMaker.new(@message).save_file
-    when :show_last_n_files
-      Noter::Viewer.new(:paging => @paging).show_last_n_files(@count)
-    when :show_file_from_index
-      Noter::Viewer.new(:paging => @paging).show_file_from_index(@index)
+    when :make_from_file
+      Noter::FileMaker.new.make_from_file(@filename)
     end
   end
 
@@ -39,19 +39,18 @@ class NoteRunner
         @command = :show_first_lines
       end
 
-      opts.on("-n", "--name", "Include names when showing files") do
-        @command = :show_first_lines
-        @show_names = true
-      end
-
       opts.on("-m", "--message MESSAGE", "Create a note using the given string") do |message|
         @command = :create_from_string
         @message = message
       end
 
-      opts.on("-t", "--tail COUNT", "the last n files") do |count|
-        @command = :show_last_n_files
-        @count = count
+      opts.on("-n", "--name", "Include names when showing files") do
+        @command = :show_first_lines
+        @show_names = true
+      end
+
+      opts.on("--no-color", "Don't colorize output") do
+        @options[:colorize] = false
       end
 
       opts.on("-s", "--show INDEX", "Show a file with the given index") do |index|
@@ -59,8 +58,13 @@ class NoteRunner
         @index = index
       end
 
+      opts.on("-t", "--tail COUNT", "the last n files") do |count|
+        @command = :show_last_n_files
+        @count = count
+      end
+
       opts.on("-u", "--unpaged", "Don't page the output") do |count|
-        @paging = false
+        @options[:paging] = false
       end
     end
     parser.parse!

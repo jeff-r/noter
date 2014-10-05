@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry", "~> 0.10"
   spec.add_development_dependency "pry-nav", "~> 0.2"
   spec.add_dependency "pager", "~> 1.0"
+  spec.add_dependency "colorize"
 end

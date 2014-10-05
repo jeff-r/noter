@@ -1,5 +1,6 @@
 require "noter/note_file"
 require "pager"
+require "colorize"
 
 module Noter
   class Viewer
@@ -9,6 +10,7 @@ module Noter
 
     def initialize(options = {})
       @do_paging = options[:paging].nil? ? true : options[:paging]
+      @do_colors = options[:colorize].nil? ? true : options[:colorize]
     end
 
     def existing_files
@@ -42,7 +44,11 @@ module Noter
 
     def show_last_n_files(num_files)
       existing_files.last(num_files.to_i).each do |filename|
-        puts "\n\n#{filename}"
+        if @do_colors
+          puts "\n\n#{filename}".colorize(:red)
+        else
+          puts "\n\n#{filename}"
+        end
         show_file(filename)
       end
     end

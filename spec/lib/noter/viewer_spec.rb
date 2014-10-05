@@ -70,12 +70,24 @@ module Noter
     end
 
     describe "#show_last_n_files" do
-      it "puts the last two files" do
-        expect(viewer).to receive(:puts).with("\n\n#{file_1_name}")
-        expect(viewer).to receive(:puts).with(file_1_contents)
-        expect(viewer).to receive(:puts).with("\n\n#{file_2_name}")
-        expect(viewer).to receive(:puts).with(file_2_contents)
-        viewer.show_last_n_files(2)
+      describe "without colors" do
+        let(:viewer) { Noter::Viewer.new(:colorize => false) }
+
+        it "puts the last two files" do
+          expect(viewer).to receive(:puts).with("\n\n#{file_1_name}")
+          expect(viewer).to receive(:puts).with(file_1_contents)
+          expect(viewer).to receive(:puts).with("\n\n#{file_2_name}")
+          expect(viewer).to receive(:puts).with(file_2_contents)
+          viewer.show_last_n_files(2)
+        end
+      end
+
+      describe "wit colors" do
+        it "adds color to the filename" do
+          expect(viewer).to receive(:puts).with("\n\n#{file_1_name}".colorize(:red))
+          expect(viewer).to receive(:puts).with("\n\n#{file_2_name}".colorize(:red))
+          viewer.show_last_n_files(2)
+        end
       end
 
       it "converts string args to int" do
