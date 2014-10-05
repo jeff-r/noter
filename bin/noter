@@ -35,6 +35,10 @@ class NoteRunner
         @filename = filename
       end
 
+      opts.on("-g", "--grep STRING", "Only show files that contain a specific string") do |grep_string|
+        @options[:grep_string] = grep_string
+      end
+
       opts.on("-l", "--one-line", "Show first line of each note file") do
         @command = :show_first_lines
       end

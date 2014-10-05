@@ -21,6 +21,21 @@ module Noter
       it "returns the names of all the existing files" do
         expect(viewer.existing_files).to eql(%W{#{NoteFile.dir}/2014_09_21_18_20_22.txt  #{NoteFile.dir}/2014_09_21_19_20_22.txt})
       end
+
+      describe "when grepping" do
+        let(:viewer) { Noter::Viewer.new(:grep_string => "foo") }
+        let(:grep_result) { "line 1\nline 2" }
+
+        it "shells out to grep to get matching filenames" do
+          expect(viewer).to receive(:`).with("grep -l foo #{NoteFile.dir}/*").and_return(grep_result)
+          viewer.existing_files
+        end
+
+        it "splits the lines returned by grep" do
+          allow(viewer).to receive(:`).and_return(grep_result)
+          expect(viewer.existing_files).to eql(["line 1", "line 2"])
+        end
+      end
     end
 
     describe "#show_first_lines" do

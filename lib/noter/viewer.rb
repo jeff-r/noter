@@ -11,10 +11,15 @@ module Noter
     def initialize(options = {})
       @do_paging = options[:paging].nil? ? true : options[:paging]
       @do_colors = options[:colorize].nil? ? true : options[:colorize]
+      @grep_string = options[:grep_string]
     end
 
     def existing_files
-      @existing_files ||= Dir.glob("#{NoteFile.dir}/*")
+      if @grep_string
+        @existing_files ||= `grep -l #{@grep_string} #{NoteFile.dir}/*`.split("\n")
+      else
+        @existing_files ||= Dir.glob("#{NoteFile.dir}/*")
+      end
     end
 
     def show_first_lines(options = {})
