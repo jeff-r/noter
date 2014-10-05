@@ -22,9 +22,15 @@ Or install it yourself as:
 
     Usage: noter [options]
         -f, --file FILE                  Create a note using the given file
+        -g, --grep STRING                Only show files that contain a specific string
         -l, --one-line                   Show first line of each note file
-        -n, --name                       Show first line of each note file, with filename
         -m, --message MESSAGE            Create a note using the given string
+        -n, --name                       Include names when showing files
+            --no-color                   Don't colorize output
+        -s, --search STRING              Show a file with the given index
+        -t, --tail COUNT                 the last n files
+        -u, --unpaged                    Don't page the output
+        -v, --view INDEX                 View a file with the given index
 
 ## Contributing
 
