@@ -12,14 +12,21 @@ module Noter
       @do_paging = options[:paging].nil? ? true : options[:paging]
       @do_colors = options[:colorize].nil? ? true : options[:colorize]
       @grep_string = options[:grep_string]
+      @tail_count = options[:tail_count].nil? ? false : options[:tail_count].to_i
     end
 
     def existing_files
+      return @existing_files if @existing_files
+
       if @grep_string
-        @existing_files ||= `grep -l #{@grep_string} #{NoteFile.dir}/*`.split("\n")
+        @existing_files = `grep -l #{@grep_string} #{NoteFile.dir}/*`.split("\n")
       else
-        @existing_files ||= Dir.glob("#{NoteFile.dir}/*")
+        @existing_files = Dir.glob("#{NoteFile.dir}/*")
       end
+      if @tail_count
+        @existing_files = @existing_files.last(@tail_count)
+      end
+      @existing_files
     end
 
     def show_first_lines(options = {})
@@ -47,8 +54,8 @@ module Noter
       puts contents
     end
 
-    def show_last_n_files(num_files)
-      existing_files.last(num_files.to_i).each do |filename|
+    def show_files
+      existing_files.each do |filename|
         if @do_colors
           puts "\n\n#{filename}".colorize(:red)
         else

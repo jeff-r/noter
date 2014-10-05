@@ -19,8 +19,8 @@ class NoteRunner
       Noter::Viewer.new(@options).show_file_from_index(@index)
     when :show_first_lines
       Noter::Viewer.new(@options).show_first_lines(:with_filename => @show_names)
-    when :show_last_n_files
-      Noter::Viewer.new(@options).show_last_n_files(@count)
+    when :show_files
+      Noter::Viewer.new(@options).show_files
     when :create_from_string
       Noter::FileMaker.new(@message).save_file
     when :make_from_file
@@ -57,18 +57,24 @@ class NoteRunner
         @options[:colorize] = false
       end
 
-      opts.on("-s", "--show INDEX", "Show a file with the given index") do |index|
-        @command = :show_file_from_index
-        @index = index
+      opts.on("-s", "--search STRING", "Show a file with the given index") do |grep_string|
+        @options[:tail_count] = 100 unless @options[:tail_count]
+        @options[:grep_string] = grep_string
+        @command = :show_files
       end
 
       opts.on("-t", "--tail COUNT", "the last n files") do |count|
-        @command = :show_last_n_files
-        @count = count
+        @command = :show_files
+        @options[:tail_count] = count
       end
 
-      opts.on("-u", "--unpaged", "Don't page the output") do |count|
+      opts.on("-u", "--unpaged", "Don't page the output") do
         @options[:paging] = false
+      end
+
+      opts.on("-v", "--view INDEX", "View a file with the given index") do |index|
+        @command = :show_file_from_index
+        @index = index
       end
     end
     parser.parse!
