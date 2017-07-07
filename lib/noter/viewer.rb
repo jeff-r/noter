@@ -30,7 +30,7 @@ module Noter
     end
 
     def show_first_lines(options = {})
-      existing_files.each do |filename|
+      existing_files.sort.reverse.each do |filename|
         file = NoteFile.new(filename)
         filename_string = ""
         if options[:with_filename]

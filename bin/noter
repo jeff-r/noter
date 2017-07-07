@@ -25,11 +25,21 @@ class NoteRunner
       Noter::FileMaker.new(@message).save_file
     when :make_from_file
       Noter::FileMaker.new.make_from_file(@filename)
+    when :create_with_vim
+      maker = Noter::FileMaker.new
+      filename = maker.create_empty_file
+      system "vim #{filename}"
+    else
+      Noter::Viewer.new(@options).show_first_lines(:with_filename => @show_names)
     end
   end
 
   def run_parser
     parser = OptionParser.new do |opts|
+      opts.on("-c", "--create", "Create a note using vim") do
+        @command = :create_with_vim
+      end
+
       opts.on("-f", "--file FILE", "Create a note using the given file") do |filename|
         @command = :make_from_file
         @filename = filename

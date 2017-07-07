@@ -9,6 +9,25 @@ module Noter
   describe FileMaker do
     let(:maker) { FileMaker.new }
 
+    before do
+      allow(File).to receive(:write)
+    end
+
+    describe "#create_empty_file" do
+      it "creates a new file" do
+        Timecop.freeze(Time.local(2014,9,20,22,14,0,0)) do
+          expect(File).to receive(:write).with(maker.new_filename, "")
+          maker.create_empty_file
+        end
+      end
+
+      it "returns the filename" do
+        Timecop.freeze(Time.local(2014,9,20,22,14,0,0)) do
+          expect(maker.create_empty_file).to eq maker.new_filename
+        end
+      end
+    end
+
     describe "#new_filename" do
       it "generates a new filename" do
         Timecop.freeze(Time.local(2014,9,20,22,14,0,0)) do
@@ -49,13 +68,15 @@ module Noter
         unless Dir.exist?(maker.dir)
           FileUtils.mkdir maker.dir
         end
-        File.write("foo.txt", "some content")
       end
 
       it "saves to a file" do
-        maker.make_from_file("foo.txt")
-        content = File.read(maker.new_filename)
-        expect(content).to eql("some content")
+        filename = "foo.txt"
+        Timecop.freeze(Time.local(2014,9,20,22,14,0,0)) do
+          expect(File).to receive(:read).with(filename).and_return("some content")
+          expect(File).to receive(:write).with(maker.new_filename, "some content")
+          maker.make_from_file(filename)
+        end
       end
     end
   end

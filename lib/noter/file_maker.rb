@@ -28,5 +28,12 @@ module Noter
       content = File.read(filename)
       File.write(new_filename, content)
     end
+
+    def create_empty_file
+      filename = new_filename
+      content = ""
+      File.write(filename, content)
+      filename
+    end
   end
 end
