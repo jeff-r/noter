@@ -21,7 +21,7 @@ module Noter
       if @grep_string
         @existing_files = `grep -l #{@grep_string} #{NoteFile.dir}/*`.split("\n")
       else
-        @existing_files = Dir.glob("#{NoteFile.dir}/*")
+        @existing_files = Dir.glob("#{NoteFile.dir}/*").sort
       end
       if @tail_count
         @existing_files = @existing_files.last(@tail_count)
